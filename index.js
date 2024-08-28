@@ -27,6 +27,7 @@ async function run() {
     await client.connect();
 
     const coffeeCollection = client.db('coffeeFa').collection('coffee');
+    const userCollection = client.db('coffeeFa').collection('user');
 
     // 2. R for read 
     app.get('/coffee', async(req, res) => {
@@ -74,7 +75,15 @@ async function run() {
         const result = await coffeeCollection.deleteOne(query);
         res.send(result);
     });
-
+    
+    // user related apis
+    // 1. C for create (user)
+    app.post('/user', async(req, res) => {
+        const user = req.body;
+        console.log(user);
+        const result = await userCollection.insertOne(user);
+        res.send(result);
+    }); 
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
